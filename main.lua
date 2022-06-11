@@ -1,21 +1,5 @@
 local open = io.open
 
-
-local function mysplit (inputstr, sep)
-  if sep == nil then
-          sep = "%s"
-  end
-  local t={}
-  for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
-          table.insert(t, str)
-  end
-  return t
-end
-
-local function compare(a,b)
-  return a > b
-end
-
 local function dump(o)
   if type(o) == 'table' then
      local s = '{ '
@@ -30,7 +14,7 @@ local function dump(o)
 end
 
 
-local function count_non_nills(t)
+local function count_non_trues(t)
   local c = 0
   for _,v in pairs(t) do
     if v then c= c+1 end
@@ -65,9 +49,6 @@ local function get_top_10_ips(ips)
   return logtable
 end
 
-local function check_request(req)
-  
-end
 
 local function lines_from(path)
   local lines = {}
@@ -91,7 +72,7 @@ local function read_log(path)
     susps[4] = string.match(line, "%d+%s(\"%p\")%s\"") ~= nil
     susps[5] = string.match(line,"\"%u+%s/%w+%.%w+%.%w+") ~=nil
     --print(susps[1],susps[2],susps[3],susps[4],susps[5])
-    if count_non_nills(susps)>1 then print(num,line) end
+    if count_non_trues(susps)>1 then print(num,line) end
     num = num+1
   end
 end
